@@ -1,0 +1,15 @@
+C:\Users\2daw3\dev\MeteoDesktop\MeteoDesktopSolution\bin\Debug\net6.0-windows\MeteoDesktopSolution.exe
+C:\Users\2daw3\dev\MeteoDesktop\MeteoDesktopSolution\bin\Debug\net6.0-windows\MeteoDesktopSolution.deps.json
+C:\Users\2daw3\dev\MeteoDesktop\MeteoDesktopSolution\bin\Debug\net6.0-windows\MeteoDesktopSolution.runtimeconfig.json
+C:\Users\2daw3\dev\MeteoDesktop\MeteoDesktopSolution\bin\Debug\net6.0-windows\MeteoDesktopSolution.dll
+C:\Users\2daw3\dev\MeteoDesktop\MeteoDesktopSolution\bin\Debug\net6.0-windows\ref\MeteoDesktopSolution.dll
+C:\Users\2daw3\dev\MeteoDesktop\MeteoDesktopSolution\bin\Debug\net6.0-windows\MeteoDesktopSolution.pdb
+C:\Users\2daw3\dev\MeteoDesktop\MeteoDesktopSolution\obj\Debug\net6.0-windows\MeteoDesktopSolution.csproj.AssemblyReference.cache
+C:\Users\2daw3\dev\MeteoDesktop\MeteoDesktopSolution\obj\Debug\net6.0-windows\MeteoDesktopSolution.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\2daw3\dev\MeteoDesktop\MeteoDesktopSolution\obj\Debug\net6.0-windows\MeteoDesktopSolution.AssemblyInfoInputs.cache
+C:\Users\2daw3\dev\MeteoDesktop\MeteoDesktopSolution\obj\Debug\net6.0-windows\MeteoDesktopSolution.AssemblyInfo.cs
+C:\Users\2daw3\dev\MeteoDesktop\MeteoDesktopSolution\obj\Debug\net6.0-windows\MeteoDesktopSolution.csproj.CoreCompileInputs.cache
+C:\Users\2daw3\dev\MeteoDesktop\MeteoDesktopSolution\obj\Debug\net6.0-windows\MeteoDesktopSolution.dll
+C:\Users\2daw3\dev\MeteoDesktop\MeteoDesktopSolution\obj\Debug\net6.0-windows\ref\MeteoDesktopSolution.dll
+C:\Users\2daw3\dev\MeteoDesktop\MeteoDesktopSolution\obj\Debug\net6.0-windows\MeteoDesktopSolution.pdb
+C:\Users\2daw3\dev\MeteoDesktop\MeteoDesktopSolution\obj\Debug\net6.0-windows\MeteoDesktopSolution.genruntimeconfig.cache
