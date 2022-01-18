@@ -13,3 +13,5 @@ C:\Users\2daw3\dev\MeteoDesktop\MeteoDesktopSolution\obj\Debug\net6.0-windows\Me
 C:\Users\2daw3\dev\MeteoDesktop\MeteoDesktopSolution\obj\Debug\net6.0-windows\ref\MeteoDesktopSolution.dll
 C:\Users\2daw3\dev\MeteoDesktop\MeteoDesktopSolution\obj\Debug\net6.0-windows\MeteoDesktopSolution.pdb
 C:\Users\2daw3\dev\MeteoDesktop\MeteoDesktopSolution\obj\Debug\net6.0-windows\MeteoDesktopSolution.genruntimeconfig.cache
+C:\Users\2daw3\dev\MeteoDesktop\MeteoDesktopSolution\obj\Debug\net6.0-windows\MeteoDesktopSolution.Form1.resources
+C:\Users\2daw3\dev\MeteoDesktop\MeteoDesktopSolution\obj\Debug\net6.0-windows\MeteoDesktopSolution.csproj.GenerateResource.cache
