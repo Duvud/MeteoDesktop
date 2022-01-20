@@ -1,7 +1,11 @@
+using MeteoDesktopSolution.Data;
+
 namespace MeteoDesktopSolution;
 
 static class Program
 {
+    private static Task cosa;
+
     /// <summary>
     ///  The main entry point for the application.
     /// </summary>
@@ -12,5 +16,6 @@ static class Program
         // see https://aka.ms/applicationconfiguration.
         ApplicationConfiguration.Initialize();
         Application.Run(new Form1());
+        
     }
 }
