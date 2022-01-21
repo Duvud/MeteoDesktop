@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\david\\source\\repos\\MeteoDesktop\\MeteoDesktopSolution\\MeteoDesktopSolution.csproj": {}
+    "C:\\Users\\david\\Source\\Repos\\MeteoDesktop\\MeteoDesktopSolution\\MeteoDesktopSolution.csproj": {}
   },
   "projects": {
-    "C:\\Users\\david\\source\\repos\\MeteoDesktop\\MeteoDesktopSolution\\MeteoDesktopSolution.csproj": {
+    "C:\\Users\\david\\Source\\Repos\\MeteoDesktop\\MeteoDesktopSolution\\MeteoDesktopSolution.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\david\\source\\repos\\MeteoDesktop\\MeteoDesktopSolution\\MeteoDesktopSolution.csproj",
+        "projectUniqueName": "C:\\Users\\david\\Source\\Repos\\MeteoDesktop\\MeteoDesktopSolution\\MeteoDesktopSolution.csproj",
         "projectName": "MeteoDesktopSolution",
-        "projectPath": "C:\\Users\\david\\source\\repos\\MeteoDesktop\\MeteoDesktopSolution\\MeteoDesktopSolution.csproj",
+        "projectPath": "C:\\Users\\david\\Source\\Repos\\MeteoDesktop\\MeteoDesktopSolution\\MeteoDesktopSolution.csproj",
         "packagesPath": "C:\\Users\\david\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\david\\source\\repos\\MeteoDesktop\\MeteoDesktopSolution\\obj\\",
+        "outputPath": "C:\\Users\\david\\Source\\Repos\\MeteoDesktop\\MeteoDesktopSolution\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

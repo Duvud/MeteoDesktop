@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "YJ7jtSnad0G0qiTPpD/4FGLCem09DJyD7SVGlsmRd/vRHijJiBG+dLohXXM1SlfKzWSowEI7mADBm2krLLZXeQ==",
+  "dgSpecHash": "bfp+YJLYZD0gHN4kTp/voI7MxkCb1BBMxTzmA9XT+W5VM/fB+dERhOldxj4Vb5IfgVcSgGAgNP9JpkCt/7fygA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\david\\source\\repos\\MeteoDesktop\\MeteoDesktopSolution\\MeteoDesktopSolution.csproj",
+  "projectFilePath": "C:\\Users\\david\\Source\\Repos\\MeteoDesktop\\MeteoDesktopSolution\\MeteoDesktopSolution.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\david\\.nuget\\packages\\microsoft.build.framework\\17.0.0\\microsoft.build.framework.17.0.0.nupkg.sha512",
     "C:\\Users\\david\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
