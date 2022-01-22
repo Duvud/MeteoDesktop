@@ -1,5 +1,6 @@
 using MeteoDesktopSolution.Data;
 using MeteoDesktopSolution.Model;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 
@@ -30,11 +31,39 @@ public partial class Form1 : Form
 
     }
 
-    private void button1_Click(object sender, EventArgs e)
+    private async void button1_Click(object sender, EventArgs e)
     {
         if (comboBox1.SelectedItem != null) {
             String stationId = this.comboBox1.SelectedItem.ToString().Split(" ")[0];
-            DataParser.getStationData(stationId);
+            String stationName = comboBox1.SelectedItem.ToString().Split(" ")[1];
+            
+            
+            try
+            {
+                IDictionary<String, double> readingsMap = await DataParser.getStationData(stationId);
+                Debug.WriteLine(readingsMap.Count());
+                DataGridViewRow newRow = new DataGridViewRow();
+                newRow.CreateCells(dataGridView1);
+                int loopCounter = 2;
+                newRow.Cells[0].Value = stationId;
+                newRow.Cells[1].Value = stationName;
+                foreach (KeyValuePair<String, double> cosa in readingsMap)
+                {
+                    Debug.WriteLine(cosa);
+                    newRow.Cells[loopCounter].Value = readingsMap[cosa.Key];
+                    loopCounter++;
+                }
+                dataGridView1.Rows.Add(newRow);
+            }
+            catch (Newtonsoft.Json.JsonReaderException ex) {
+                MessageBox.Show("Ha ocurriddo un error conseguir datos de la baliza : " + stationId + "(" + stationName + ")"  );
+            } 
+            
         }
+    }
+
+    private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+    {
+
     }
 }

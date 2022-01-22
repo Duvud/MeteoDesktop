@@ -1,5 +1,6 @@
 ﻿using MeteoDesktopSolution.Model;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,13 +19,25 @@ namespace MeteoDesktopSolution.Data
             var client = new HttpClient { BaseAddress = new Uri("https://www.euskalmet.euskadi.eus/vamet/stations/stationList/stationList.json") };
             var responseMessage = await client.GetAsync("",HttpCompletionOption.ResponseContentRead);
             var resultArray = await responseMessage.Content.ReadAsStringAsync();
-            var personList = JsonConvert.DeserializeObject<List<Station>>(resultArray);
-            Debug.WriteLine(personList.ToArray().Length);
-            return personList.ToArray();
+            List<Station> stationList = JsonConvert.DeserializeObject<List<Station>>(resultArray);
+             stationList.RemoveAll(delegate(Station station){
+                return station.stationType != "METEOROLOGICAL";
+            });
+            foreach (Station station in stationList) {
+                Debug.WriteLine(station.stationType);
+            }
+            Debug.WriteLine(stationList.ToArray().Length);
+            return stationList.ToArray();
         }
 
-        public static async void getStationData(String stationId) {
-            
+        public static double getLastData(List<string> dataJsonTimeList, JObject dataJson) {
+            dataJsonTimeList.Sort();
+            double lastData = Double.Parse(dataJson[dataJsonTimeList[dataJsonTimeList.Count() - 1].ToString()].ToString());
+            return lastData;
+        }
+
+        public static async Task<IDictionary<String, double>> getStationData(String stationId) {
+            IDictionary<String, double> lastReadingsMap = new Dictionary<String, double>();
             DateTime localDate = DateTime.Now;
             String month = localDate.Month.ToString();
             if (month.Length == 1) {
@@ -37,12 +50,34 @@ namespace MeteoDesktopSolution.Data
             var client = new HttpClient { BaseAddress = new Uri(requestUrl) };
             var responseMessage = await client.GetAsync("", HttpCompletionOption.ResponseContentRead);
             var resultData = await responseMessage.Content.ReadAsStringAsync();
-            Debug.WriteLine(resultData);
             dynamic stationReadingsJson = JsonConvert.DeserializeObject(resultData);
             foreach (var obj in stationReadingsJson)
             {
-                Debug.WriteLine(obj);
+                foreach (JObject stationTypeJson in obj) {
+                    String dataType = stationTypeJson["name"].ToString();
+                    JObject preDataJson = JObject.Parse(stationTypeJson["data"].ToString());
+                    IList<string> keys = preDataJson.Properties().Select(p => p.Name).ToList();
+                    JObject dataJson = JObject.Parse(preDataJson[keys[0]].ToString());
+                    List<string> dataJsonTimeList = dataJson.Properties().Select(p => p.Name).ToList();
+                    dataJsonTimeList.Sort();
+                    double lastData = getLastData(dataJsonTimeList, dataJson);
+                    switch (dataType) {
+                        case "temperature":
+                            lastReadingsMap.Add("temperature", lastData);
+                            break;
+                        case "precipitation":
+                            lastReadingsMap.Add("precipitation", lastData);
+                            break;
+                        case "humidity":
+                            lastReadingsMap.Add("humidity", lastData);
+                            break;
+                        case "mean_speed":
+                            lastReadingsMap.Add("speed", lastData);
+                            break;
+                    }
+                }
             }
+            return lastReadingsMap;
         }
 
     }
