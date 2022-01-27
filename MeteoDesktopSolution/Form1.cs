@@ -42,7 +42,7 @@ public partial class Form1 : Form
             
             try
             {
-                IDictionary<String, double> readingsMap = await DataParser.getStationData(stationId);
+                IDictionary<String, double> readingsMap = await DataParser.getStationData(stationId, stationName);
                 Debug.WriteLine(readingsMap.Count());
                 DataGridViewRow newRow = new DataGridViewRow();
                 newRow.CreateCells(dataGridView1);

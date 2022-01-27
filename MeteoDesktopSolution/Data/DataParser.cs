@@ -1,4 +1,6 @@
-﻿using MeteoDesktopSolution.Model;
+﻿using MeteoDesktopSolution.db;
+using MeteoDesktopSolution.Model;
+using MongoDB.Bson;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -36,7 +38,8 @@ namespace MeteoDesktopSolution.Data
             return lastData;
         }
 
-        public static async Task<IDictionary<String, double>> getStationData(String stationId) {
+        public static async Task<IDictionary<String, double>> getStationData(String stationId, String stationName) {
+            MongoController dbController = new MongoController();
             IDictionary<String, double> lastReadingsMap = new Dictionary<String, double>();
             DateTime localDate = DateTime.Now;
             String month = localDate.Month.ToString();
@@ -77,6 +80,15 @@ namespace MeteoDesktopSolution.Data
                     }
                 }
             }
+            BsonDocument newReading = new BsonDocument {
+                { "stationId", stationId },
+                { "name", stationName },
+                { "temperature", lastReadingsMap["temperature"]  },
+                { "precipitation", lastReadingsMap["precipitation"]  },
+                { "humidity", lastReadingsMap["humidity"]  },
+                { "mean_speed", lastReadingsMap["mean_speed"]  },
+            };
+            dbController.insertDocument(newReading);
             return lastReadingsMap;
         }
 

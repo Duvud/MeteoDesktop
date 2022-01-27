@@ -21,13 +21,21 @@ namespace MeteoDesktopSolution.db
             dbCollection = meteoDb.GetCollection<BsonDocument>("readings");
         }
 
-        public void insertDocument(BsonDocument newDocument) {
-            dbCollection.InsertOne(newDocument);
+        public async void insertDocument(BsonDocument newDocument) {
+            await dbCollection.InsertOneAsync(newDocument);
+            printReadings();
         }
 
         public List<BsonDocument> getCollection() {
             List<BsonDocument> documents = dbCollection.Find(new BsonDocument()).ToList();
             return documents;
+        }
+
+        public void printReadings() {
+            List<BsonDocument> documents = dbCollection.Find(new BsonDocument()).ToList();
+            foreach (var obj in documents) {
+                Debug.WriteLine(obj.ToString());
+            }
         }
     }
 }
