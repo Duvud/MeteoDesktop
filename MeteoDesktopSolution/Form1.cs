@@ -1,4 +1,5 @@
 using MeteoDesktopSolution.Data;
+using MeteoDesktopSolution.db;
 using MeteoDesktopSolution.Model;
 using System.Collections.Generic;
 using System.Data;
@@ -13,6 +14,7 @@ public partial class Form1 : Form
         InitializeComponent();
         Control.CheckForIllegalCrossThreadCalls = false;
         LoadComboBox();
+        MongoController mongoController = new MongoController();
     }
 
     private async void LoadComboBox() {
