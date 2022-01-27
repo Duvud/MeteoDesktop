@@ -40,7 +40,7 @@ namespace MeteoDesktopSolution.Data
 
         public static async Task<IDictionary<String, double>> getStationData(String stationId, String stationName) {
             MongoController dbController = new MongoController();
-            IDictionary<String, double> lastReadingsMap = new Dictionary<String, double>();
+            IDictionary<String, Double> lastReadingsMap = new Dictionary<String, Double>();
             DateTime localDate = DateTime.Now;
             String month = localDate.Month.ToString();
             if (month.Length == 1) {
@@ -86,7 +86,7 @@ namespace MeteoDesktopSolution.Data
                 { "temperature", lastReadingsMap["temperature"]  },
                 { "precipitation", lastReadingsMap["precipitation"]  },
                 { "humidity", lastReadingsMap["humidity"]  },
-                { "mean_speed", lastReadingsMap["mean_speed"]  },
+                { "mean_speed", lastReadingsMap["mean_speed"] == null ? "" : lastReadingsMap["mean_speed"]   },
             };
             dbController.insertDocument(newReading);
             return lastReadingsMap;
