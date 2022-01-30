@@ -39,7 +39,7 @@ namespace MeteoDesktopSolution.Data
         }
 
         public static async Task<IDictionary<String, double>> getStationData(String stationId, String stationName) {
-            MongoController dbController = new MongoController();
+            MongoController dbController = MongoController.getMongoController();
             IDictionary<String, Double> lastReadingsMap = new Dictionary<String, Double>();
             DateTime localDate = DateTime.Now;
             String month = localDate.Month.ToString();
@@ -54,6 +54,9 @@ namespace MeteoDesktopSolution.Data
             var responseMessage = await client.GetAsync("", HttpCompletionOption.ResponseContentRead);
             var resultData = await responseMessage.Content.ReadAsStringAsync();
             dynamic stationReadingsJson = JsonConvert.DeserializeObject(resultData);
+            BsonDocument newReading = new BsonDocument {};
+            newReading.Add("id", stationId);
+            newReading.Add("date", localDate.ToString());
             foreach (var obj in stationReadingsJson)
             {
                 foreach (JObject stationTypeJson in obj) {
@@ -67,30 +70,25 @@ namespace MeteoDesktopSolution.Data
                     switch (dataType) {
                         case "temperature":
                             lastReadingsMap.Add("temperature", lastData);
+                            newReading.Add("temperature", lastData);
                             break;
                         case "precipitation":
                             lastReadingsMap.Add("precipitation", lastData);
+                            newReading.Add("precipitation", lastData);
                             break;
                         case "humidity":
                             lastReadingsMap.Add("humidity", lastData);
+                            newReading.Add("humidity", lastData);
                             break;
                         case "mean_speed":
                             lastReadingsMap.Add("speed", lastData);
+                            newReading.Add("speed", lastData);
                             break;
                     }
                 }
             }
-            BsonDocument newReading = new BsonDocument {
-                { "stationId", stationId },
-                { "name", stationName },
-                { "temperature", lastReadingsMap["temperature"]  },
-                { "precipitation", lastReadingsMap["precipitation"]  },
-                { "humidity", lastReadingsMap["humidity"]  },
-                { "mean_speed", lastReadingsMap["mean_speed"] == null ? "" : lastReadingsMap["mean_speed"]   },
-            };
             dbController.insertDocument(newReading);
             return lastReadingsMap;
         }
-
     }
 }

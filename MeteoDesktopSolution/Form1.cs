@@ -43,7 +43,6 @@ public partial class Form1 : Form
             try
             {
                 IDictionary<String, double> readingsMap = await DataParser.getStationData(stationId, stationName);
-                Debug.WriteLine(readingsMap.Count());
                 DataGridViewRow newRow = new DataGridViewRow();
                 newRow.CreateCells(dataGridView1);
                 int loopCounter = 2;
@@ -58,7 +57,26 @@ public partial class Form1 : Form
                 dataGridView1.Rows.Add(newRow);
             }
             catch (Newtonsoft.Json.JsonReaderException ex) {
-                MessageBox.Show("Ha ocurriddo un error conseguir datos de la baliza : " + stationId + "(" + stationName + ")"  );
+                MessageBox.Show("Ha ocurriddo un error conseguir datos de la baliza : " + stationId + "(" + stationName + ") intentando cargarla una desde la base de datos"  );
+                MongoController dbController = MongoController.getMongoController();
+                IDictionary<String, String> readingsMap = dbController.getLastReading(stationId);
+                foreach (var value in readingsMap) {
+                    Debug.WriteLine(value);
+                }
+                if (readingsMap.Count > 0) {
+                    DataGridViewRow newRow = new DataGridViewRow();
+                    newRow.CreateCells(dataGridView1);
+                    int loopCounter = 2;
+                    newRow.Cells[0].Value = stationId;
+                    newRow.Cells[1].Value = stationName;
+                    foreach (KeyValuePair<String, String> cosa in readingsMap)
+                    {
+                        Debug.WriteLine(cosa);
+                        newRow.Cells[loopCounter].Value = readingsMap[cosa.Key];
+                        loopCounter++;
+                    }
+                    dataGridView1.Rows.Add(newRow);
+                }
             } 
             
         }
