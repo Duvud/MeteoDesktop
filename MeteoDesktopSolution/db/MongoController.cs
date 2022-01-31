@@ -32,7 +32,6 @@ namespace MeteoDesktopSolution.db
         }
 
         public async void insertDocument(BsonDocument newDocument) {
-            newDocument.Set("id", "C001");
             await dbCollection.InsertOneAsync(newDocument);
             printReadings();
         }
@@ -71,12 +70,7 @@ namespace MeteoDesktopSolution.db
         public void printReadings() {
             List<BsonDocument> documents = dbCollection.Find(new BsonDocument()).ToList();
             foreach (var obj in documents) {
-                //Debug.WriteLine(obj.ToString());
-            }
-            IDictionary<String,String> readingsMap = getLastReading("C034");
-            foreach (var value in readingsMap)
-            {
-                Debug.WriteLine(value);
+                Debug.WriteLine(obj.ToString());
             }
         }
     }

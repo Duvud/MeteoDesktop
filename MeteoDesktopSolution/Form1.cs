@@ -56,7 +56,7 @@ public partial class Form1 : Form
                 }
                 dataGridView1.Rows.Add(newRow);
             }
-            catch (Newtonsoft.Json.JsonReaderException ex) {
+            catch (Exception ex) {
                 MessageBox.Show("Ha ocurriddo un error conseguir datos de la baliza : " + stationId + "(" + stationName + ") intentando cargarla una desde la base de datos"  );
                 MongoController dbController = MongoController.getMongoController();
                 IDictionary<String, String> readingsMap = dbController.getLastReading(stationId);
