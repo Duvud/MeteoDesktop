@@ -10,6 +10,7 @@
         "dependencies": {
           "IKVM": "8.1.5717",
           "Microsoft.Build.Framework": "17.0.0",
+          "MongoDB.Bson": "2.14.1",
           "MongoDB.Driver": "2.14.1",
           "Newtonsoft.Json": "13.0.1",
           "System.Collections": "4.3.0",

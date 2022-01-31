@@ -1,27 +1,32 @@
-﻿using System;
+﻿using MeteoDesktopSolution.Model;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using MongoDB.Driver.Builders;
 
 namespace MeteoDesktopSolution.db
 {
     internal class MongoController
     {
         private MongoClient dbClient;
-        private IMongoCollection<BsonDocument> dbCollection;
+        private IMongoCollection<BsonDocument> readingCollection;
+        private IMongoCollection<BsonDocument> stationCollection;
         private IMongoDatabase meteoDb;
         private static MongoController mongoController;
+        
+
         public MongoController()
         {
             dbClient = new MongoClient("mongodb://localhost:27017");
             meteoDb = dbClient.GetDatabase("meteoDesktop");
-            dbCollection = meteoDb.GetCollection<BsonDocument>("readings");
-            //dbCollection.DeleteMany(Builders<BsonDocument>.Filter.Empty);
+            readingCollection = meteoDb.GetCollection<BsonDocument>("readings");
+            stationCollection = meteoDb.GetCollection<BsonDocument>("stations");
+            //readingCollection.DeleteMany(Builders<BsonDocument>.Filter.Empty);
+            stationCollection.DeleteMany(Builders<BsonDocument>.Filter.Empty);
         }
 
         public static MongoController getMongoController() {
@@ -31,14 +36,31 @@ namespace MeteoDesktopSolution.db
             return mongoController;
         }
 
-        public async void insertDocument(BsonDocument newDocument) {
-            await dbCollection.InsertOneAsync(newDocument);
+        public async void insertReading(BsonDocument newDocument) {
+            await readingCollection.InsertOneAsync(newDocument);
             printReadings();
         }
 
-        public List<BsonDocument> getCollection() {
-            List<BsonDocument> documents = dbCollection.Find(new BsonDocument()).ToList();
-            return documents;
+        public async void insertStations(List<Station> stationList) {
+            List<BsonDocument> bsonList = new List<BsonDocument>();
+            foreach (Station station in stationList) {
+                bsonList.Add(station.ToBsonDocument());
+                await stationCollection.ReplaceOneAsync(
+                filter: new BsonDocument("_id", station.id),
+                options: new ReplaceOptions { IsUpsert = true },
+                replacement: station.ToBsonDocument());
+            }
+            printStations();
+        }
+
+        public List<BsonDocument> getReadings() {
+            List<BsonDocument> readings = readingCollection.Find(new BsonDocument()).ToList();
+            return readings;
+        }
+
+        public List<BsonDocument> getStations() {
+            List<BsonDocument> stations = stationCollection.Find(new BsonDocument()).ToList();
+            return stations;
         }
 
         public Dictionary<String, String> getLastReading(String stationId) {
@@ -47,7 +69,7 @@ namespace MeteoDesktopSolution.db
                 List<String> keyList = new List<string>();
                 var filter = Builders<BsonDocument>.Filter.Eq("id", stationId);
                 var sort = Builders<BsonDocument>.Sort.Descending("date");
-                BsonDocument lastReading = dbCollection.Find(filter).Sort(sort).First();
+                BsonDocument lastReading = readingCollection.Find(filter).Sort(sort).First();
                 IEnumerable<string> names = lastReading.Names;
                 foreach (String name in names)
                 {
@@ -68,8 +90,16 @@ namespace MeteoDesktopSolution.db
         }
 
         public void printReadings() {
-            List<BsonDocument> documents = dbCollection.Find(new BsonDocument()).ToList();
+            List<BsonDocument> documents = readingCollection.Find(new BsonDocument()).ToList();
             foreach (var obj in documents) {
+                Debug.WriteLine(obj.ToString());
+            }
+        }
+
+        public void printStations() {
+            List<BsonDocument> stations = stationCollection.Find(new BsonDocument()).ToList();
+            foreach (var obj in stations)
+            {
                 Debug.WriteLine(obj.ToString());
             }
         }

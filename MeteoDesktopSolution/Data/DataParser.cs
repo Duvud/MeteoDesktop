@@ -18,6 +18,7 @@ namespace MeteoDesktopSolution.Data
         public DataParser() { 
         }
         public static async Task<Station[]> getStations() {
+            MongoController mongoController = MongoController.getMongoController();
             var client = new HttpClient { BaseAddress = new Uri("https://www.euskalmet.euskadi.eus/vamet/stations/stationList/stationList.json") };
             var responseMessage = await client.GetAsync("",HttpCompletionOption.ResponseContentRead);
             var resultArray = await responseMessage.Content.ReadAsStringAsync();
@@ -25,10 +26,7 @@ namespace MeteoDesktopSolution.Data
              stationList.RemoveAll(delegate(Station station){
                 return station.stationType != "METEOROLOGICAL";
             });
-            foreach (Station station in stationList) {
-                Debug.WriteLine(station.stationType);
-            }
-            Debug.WriteLine(stationList.ToArray().Length);
+            mongoController.insertStations(stationList);
             return stationList.ToArray();
         }
 
@@ -87,7 +85,7 @@ namespace MeteoDesktopSolution.Data
                     }
                 }
             }
-            dbController.insertDocument(newReading);
+            dbController.insertReading(newReading);
             return lastReadingsMap;
         }
     }
