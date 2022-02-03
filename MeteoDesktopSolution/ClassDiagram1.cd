@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="MeteoDesktopSolution.Data.DataParser">
+    <Position X="12.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAACAAAAAAABAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\DataParser.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="MongoController" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="MeteoDesktopSolution.db.MongoController">
+    <Position X="18" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAACAGABAQABAAICAAAAAAAAAABIACAACAIAAAAAAA=</HashCode>
+      <FileName>db\MongoController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MeteoDesktopSolution.Model.Station">
+    <Position X="15" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAEAAAIAAAAAAAgAAgAAIAEAAAAAABgAAACAgI=</HashCode>
+      <FileName>Model\Station.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="MongoController" />
+      <Property Name="DataParser" />
+      <Property Name="Form1" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="MeteoDesktopSolution.Form1">
+    <Position X="15.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAACAIBAIQABCAAAACAAg8AAAAAEQAAAAAAgA=</HashCode>
+      <FileName>Form1.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="DataParser" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="MeteoDesktopSolution.Program">
+    <Position X="15.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAAIAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Form1" />
+    </ShowAsAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

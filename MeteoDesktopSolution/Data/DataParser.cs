@@ -17,6 +17,15 @@ namespace MeteoDesktopSolution.Data
     {
         public DataParser() { 
         }
+
+        internal MongoController MongoController
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         public static async Task<Station[]> getStations() {
             MongoController mongoController = MongoController.getMongoController();
             var client = new HttpClient { BaseAddress = new Uri("https://www.euskalmet.euskadi.eus/vamet/stations/stationList/stationList.json") };
@@ -41,10 +50,13 @@ namespace MeteoDesktopSolution.Data
             IDictionary<String, Double> lastReadingsMap = new Dictionary<String, Double>();
             DateTime localDate = DateTime.Now;
             String month = localDate.Month.ToString();
+            String day = localDate.Day.ToString(); 
             if (month.Length == 1) {
                 month = "0" + month;
             }
-            String day = localDate.Day.ToString();
+            if (day.Length == 1) {
+                day = "0" + day;
+            }
             String year = localDate.Year.ToString();
             String requestUrl = $"https://www.euskalmet.euskadi.eus/vamet/stations/readings/{stationId}/{year}/{month}/{day}/readingsData.json";
             Debug.WriteLine(requestUrl);

@@ -18,6 +18,14 @@ public partial class Form1 : Form
         MongoController mongoController = new MongoController();
     }
 
+    internal DataParser DataParser
+    {
+        get => default;
+        set
+        {
+        }
+    }
+
     private async void LoadComboBox() {
         try
         {

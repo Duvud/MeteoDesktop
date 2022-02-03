@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace MeteoDesktopSolution.Model
 {
+    [BsonIgnoreExtraElements]
     internal class Station
     {
         public String? id { get; set; }
@@ -25,6 +27,28 @@ namespace MeteoDesktopSolution.Model
 
         public String stationType { get; set; }
 
-        
+        internal db.MongoController MongoController
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        internal Data.DataParser DataParser
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public Form1 Form1
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }

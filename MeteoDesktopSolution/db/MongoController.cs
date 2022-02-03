@@ -1,4 +1,5 @@
-﻿using MeteoDesktopSolution.Model;
+﻿using MeteoDesktopSolution.Data;
+using MeteoDesktopSolution.Model;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
@@ -17,6 +18,7 @@ namespace MeteoDesktopSolution.db
         private IMongoCollection<BsonDocument> stationCollection;
         private IMongoDatabase meteoDb;
         private static MongoController mongoController;
+        private bool intervalUpdatingStarted = false;
         
 
         public MongoController()
@@ -26,7 +28,7 @@ namespace MeteoDesktopSolution.db
             readingCollection = meteoDb.GetCollection<BsonDocument>("readings");
             stationCollection = meteoDb.GetCollection<BsonDocument>("stations");
             //readingCollection.DeleteMany(Builders<BsonDocument>.Filter.Empty);
-            stationCollection.DeleteMany(Builders<BsonDocument>.Filter.Empty);
+            //stationCollection.DeleteMany(Builders<BsonDocument>.Filter.Empty);
         }
 
         public static MongoController getMongoController() {
@@ -44,13 +46,51 @@ namespace MeteoDesktopSolution.db
         public async void insertStations(List<Station> stationList) {
             List<BsonDocument> bsonList = new List<BsonDocument>();
             foreach (Station station in stationList) {
-                bsonList.Add(station.ToBsonDocument());
+                BsonDocument bsonStation = new BsonDocument();
+                bsonStation.Add("id", station.id);
+                bsonStation.Add("name", station.name);
+                bsonStation.Add("nameEus", station.nameEus);
+                bsonStation.Add("municipality", station.municipality);
+                bsonStation.Add("province", station.province);
+                bsonStation.Add("altitude", station.altitude);
+                bsonStation.Add("x", station.x);
+                bsonStation.Add("y", station.y);
+                bsonStation.Add("stationType", station.stationType);
+                bsonList.Add(bsonStation);
                 await stationCollection.ReplaceOneAsync(
                 filter: new BsonDocument("_id", station.id),
                 options: new ReplaceOptions { IsUpsert = true },
-                replacement: station.ToBsonDocument());
+                replacement: bsonStation);
+            }
+            if (!intervalUpdatingStarted) {
+                updateReadingsEvery10Mins(stationList);
+                intervalUpdatingStarted = true;
             }
             printStations();
+        }
+
+        public async void updateReadingsEvery10Mins(List<Station> stationList) {
+            Thread thr = new Thread(async () => {
+                while (true)
+                {
+                    foreach (Station station in stationList)
+                    {
+                        try
+                        {
+                            await DataParser.getStationData(station.id, station.name);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine("Background thread failed gathering station last data, station: " + station.id + " - " + station.name);
+                        }
+
+                    }
+                    Thread.Sleep((1000 * 60) * 5);
+                }
+            });
+            thr.Name = "Mythread";
+            thr.IsBackground = true;
+            thr.Start();
         }
 
         public List<BsonDocument> getReadings() {
